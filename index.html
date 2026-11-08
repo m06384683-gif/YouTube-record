@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Creator Palette</title>
+<style>
+:root{--purple:#7651dc;--pink:#ff75a8;--blue:#58a9f5;--yellow:#ffc857;--green:#55c98a;--ink:#29253b;--muted:#817d91;--bg:#f7f5fc;--card:#fff;--line:#eeeaf5;--shadow:0 8px 28px #38246b12}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-height:100vh;display:grid;grid-template-columns:245px 1fr}
+.sidebar{background:#fff;border-right:1px solid var(--line);padding:24px 16px;display:flex;flex-direction:column;gap:22px}.brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:850}.logo{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,#ff79ae,#ffc857 48%,#7a5be4);display:grid;place-items:center;color:white;font-size:21px}.workspace{background:#f5f1ff;padding:13px;border-radius:15px}.workspace small{color:var(--muted)}.workspace strong{display:block;margin-top:4px}.nav{display:grid;gap:5px}.nav button{background:transparent;text-align:left;padding:11px 12px;border-radius:11px;color:#625d73}.nav button.active,.nav button:hover{background:#f0ebff;color:var(--purple);font-weight:750}.nav button span{margin-right:9px}
+main{padding:28px;min-width:0}.topbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}.topbar h1{font-size:25px;margin:0}.top-actions{display:flex;gap:8px;flex-wrap:wrap}.btn{background:var(--purple);color:white;padding:11px 16px;border-radius:10px;font-weight:750}.btn.secondary{background:#f0ebff;color:var(--purple)}.btn.danger{background:#fff0f2;color:#d84c67}.btn.small{padding:7px 10px;font-size:12px}.btn:disabled{opacity:.55;cursor:wait}
+.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:20px;box-shadow:var(--shadow);margin-bottom:18px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.stat{background:#fff;border:1px solid var(--line);border-radius:15px;padding:17px}.stat b{display:block;font-size:25px;margin-top:7px}.muted{color:var(--muted);font-size:13px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 13px}.section-head h3{margin:0;font-size:17px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label,label{font-size:13px;font-weight:700;color:#625d73}.field input,.field select,.field textarea,input,select,textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);min-width:0}.field textarea{resize:vertical}.page{display:none}.page.active{display:block}.notice{background:#f0ebff;color:#6550a6;border-radius:12px;padding:13px;margin-bottom:16px;font-size:13px}.list-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.list-row:last-child{border-bottom:0}.empty{padding:24px;text-align:center;color:var(--muted);font-size:13px}.member{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.face{width:38px;height:38px;border-radius:50%;background:#eee7ff;color:var(--purple);display:grid;place-items:center;font-weight:800}.member-info{flex:1;min-width:0}.member-info small{display:block;color:var(--muted)}.pill{padding:5px 9px;border-radius:99px;font-size:11px;background:#f0ebff;color:var(--purple)}.pill.green{background:#e8fbf1;color:#248b59}.actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#29253b;color:white;padding:12px 18px;border-radius:12px;display:none;z-index:99;max-width:90vw}.start-gate{position:fixed;inset:0;background:#f7f5fc;z-index:50;display:grid;place-items:center;padding:20px;overflow:auto}.start-wrap{width:min(760px,100%);text-align:center}.start-wrap h1{font-size:30px;margin:0 0 8px}.start-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}.start-choice{background:white;border:1px solid var(--line);border-radius:18px;padding:23px;text-align:left;box-shadow:var(--shadow)}.start-choice h3{margin:0 0 8px}.start-choice p{font-size:13px;color:var(--muted);line-height:1.7}.join-panel,.cloud-panel{background:white;border:1px solid var(--line);border-radius:17px;padding:20px;margin:14px auto;max-width:560px;text-align:left;box-shadow:var(--shadow)}.join-panel{display:none}.join-panel.open{display:block}.cloud-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.cloud-status{background:#f7f5fc;border-radius:10px;padding:11px;margin-top:12px;font-size:13px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}.start-back{background:transparent;color:var(--purple);padding:12px 0;font-weight:700}.start-foot{color:var(--muted);font-size:12px;margin:20px}.cloud-panel input,.cloud-panel textarea{margin:6px 0 12px}.workspace-switcher{display:flex;align-items:center;gap:8px}.workspace-switcher select{max-width:210px}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{padding:13px;gap:12px;border-right:0;border-bottom:1px solid var(--line)}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap}.workspace{display:none}main{padding:17px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.grid,.form-grid,.start-choices{grid-template-columns:1fr}.field.full{grid-column:auto}.topbar{align-items:flex-start;flex-direction:column}.topbar h1{font-size:22px}.card{padding:15px}.start-wrap h1{font-size:24px}}
+</style>
+</head>
+<body>
+
+<section class="start-gate" id="startGate">
+  <div class="start-wrap">
+    <div class="logo" style="margin:0 auto 14px">✦</div>
+    <h1>Creator Palette</h1>
+    <p class="muted">みんなの制作活動を、ひとつの場所に。</p>
+
+    <div class="start-choices">
+      <article class="start-choice">
+        <h3>🌈 新しいチャンネルを作成</h3>
+        <p>自分のチーム用ワークスペースを作成して、制作活動を管理できます。</p>
+        <button class="btn" onclick="showPostLoginChooser('create')">新しく作成する →</button>
+      </article>
+      <article class="start-choice">
+        <h3>🤝 招待から参加</h3>
+        <p>チームから受け取った招待コードを入力して参加できます。</p>
+        <button class="btn secondary" onclick="toggleJoinPanel(true)">招待コードで参加 →</button>
+      </article>
+    </div>
+
+    <div class="join-panel" id="joinPanel">
+      <h3 style="margin:0 0 6px">🤝 チームへの招待</h3>
+      <p class="muted">ログイン後、招待コードを入力してください。</p>
+      <input id="inviteCode" placeholder="招待コードを入力">
+      <button class="btn" style="width:100%" onclick="tryJoin()">招待を確認する</button>
+      <button class="start-back" onclick="toggleJoinPanel(false)">← 戻る</button>
+      <div class="cloud-status" id="joinStatus" style="display:none"></div>
+    </div>
+
+    <div class="cloud-panel" id="cloudAuthPanel">
+      <h3 style="margin:0 0 8px">☁️ チームにログイン</h3>
+      <p class="muted">メールアドレスでログインまたは新規登録してください。</p>
+      <label>メールアドレス</label>
+      <input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com">
+      <label>パスワード</label>
+      <input id="authPassword" type="password" autocomplete="current-password" placeholder="6文字以上">
+      <div class="cloud-actions">
+        <button class="btn" onclick="cloudSignIn()">ログイン</button>
+        <button class="btn secondary" onclick="cloudSignUp()">新規登録</button>
+      </div>
+      <div class="cloud-status" id="cloudAuthStatus">Supabase接続先は設定済みです。新規登録またはログインしてください。</div>
+      <button class="start-back" onclick="openCloudSettings()">⚙️ Supabase接続設定</button>
+    </div>
+    <div class="start-foot">🌈 Creator Palette · みんなの制作活動を、ひとつの場所に。</div>
+  </div>
+</section>
+
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="logo">✦</div> Creator Palette</div>
+  <div class="workspace"><small>ワークスペース</small><strong id="sidebarWorkspaceName">🍄 Mario-Hama-jp</strong></div>
+  <nav class="nav" id="nav">
+    <button class="active" data-page="home"><span>🏠</span>ホーム</button>
+    <button data-page="videos"><span>🎬</span>動画管理</button>
+    <button data-page="tasks"><span>☑️</span>チェックリスト</button>
+    <button data-page="ideas"><span>💡</span>アイデア・企画</button>
+    <button data-page="schedule"><span>📅</span>予定・不在時間</button>
+    <button data-page="members"><span>👥</span>メンバー</button>
+    <button data-page="workspaces"><span>🗂️</span>チャンネル管理</button>
+    <button data-page="links"><span>🔗</span>リンク集</button>
+    <button data-page="growth"><span>📈</span>成長記録</button>
+    <button data-page="journal"><span>📔</span>活動日記</button>
+  </nav>
+  <div class="muted" id="cloudSideNote">☁️ Supabase接続</div>
+  <button class="btn secondary" onclick="openCloudSettings()">⚙️ 接続設定</button>
+  <button class="btn danger" onclick="signOutCloud()">ログアウト</button>
+</aside>
+
+<main>
+  <div class="topbar">
+    <div><h1 id="pageTitle">ホーム</h1><div class="muted">Creator Palette</div></div>
+    <div class="top-actions">
+      <div class="workspace-switcher">
+        <select id="workspaceSelect" onchange="switchWorkspace(this.value)" aria-label="チャンネル切替"></select>
+      </div>
+      <button class="btn secondary" onclick="openInvitePanel()">招待コードを発行</button>
+    </div>
+  </div>
+
+  <section class="page active" id="home">
+    <div class="notice">チームの制作活動や予定、動画、アイデアをまとめて管理できます。</div>
+    <div class="stats">
+      <div class="stat"><span class="muted">登録動画</span><b id="statVideos">0</b></div>
+      <div class="stat"><span class="muted">タスク</span><b id="statTasks">0</b></div>
+      <div class="stat"><span class="muted">アイデア</span><b id="statIdeas">0</b></div>
+      <div class="stat"><span class="muted">メンバー</span><b id="statMembers">0</b></div>
+    </div>
+    <div class="grid" style="margin-top:17px">
+      <div class="card"><div class="section-head"><h3>👥 メンバーの活動状況</h3></div><div id="homeMembers"></div></div>
+      <div class="card"><div class="section-head"><h3>📅 直近の予定</h3></div><div id="homeEvents"></div></div>
+    </div>
+    <div class="card"><div class="section-head"><h3>🎬 最近登録した動画</h3></div><div id="homeVideos"></div></div>
+  </section>
+
+  <section class="page" id="videos">
+    <div class="card">
+      <div class="section-head"><h3>🎬 動画を登録</h3></div>
+      <form id="videoForm" class="form-grid">
+        <div class="field"><label>動画タイトル</label><input name="title" required placeholder="動画タイトル"></div>
+        <div class="field"><label>種類</label><select name="kind"><option>通常動画</option><option>ショート動画</option><option>ライブ配信</option></select></div>
+        <div class="field"><label>担当者</label><input name="owner" placeholder="担当者"></div>
+        <div class="field"><label>状態</label><select name="status"><option>企画中</option><option>撮影中</option><option>編集中</option><option>確認中</option><option>公開済み</option></select></div>
+        <div class="field full"><label>動画URL</label><input name="url" type="url" placeholder="https://..."></div>
+        <div class="field full"><button class="btn">動画を登録する</button></div>
+      </form>
+    </div>
+    <div class="section-head"><h3>登録した動画</h3></div><div class="card" id="videoList"></div>
+  </section>
+
+  <section class="page" id="tasks">
+    <div class="card">
+      <div class="section-head"><h3>☑️ 制作チェックリスト</h3></div>
+      <form id="taskForm" class="actions"><input name="task" required placeholder="チェック項目を追加..." style="flex:1;min-width:180px"><button class="btn">追加</button></form>
+      <div id="taskList" style="margin-top:14px"></div>
+    </div>
+  </section>
+
+  <section class="page" id="ideas">
+    <div class="card">
+      <div class="section-head"><h3>💡 アイデアを保存</h3></div>
+      <form id="ideaForm" class="form-grid">
+        <div class="field"><label>アイデア名</label><input name="title" required placeholder="例：視聴者参加型カスタム"></div>
+        <div class="field"><label>カテゴリー</label><select name="category"><option>動画企画</option><option>ショート動画</option><option>配信</option><option>サムネイル</option><option>その他</option></select></div>
+        <div class="field full"><label>メモ</label><textarea name="memo" rows="3" placeholder="内容や参考にしたいこと..."></textarea></div>
+        <div class="field full"><button class="btn">アイデアを保存</button></div>
+      </form>
+    </div>
+    <div class="section-head"><h3>アイデア一覧</h3></div><div class="card" id="ideaList"></div>
+  </section>
+
+  <section class="page" id="schedule">
+    <div class="notice">参加できない時間・撮影予定などをチームで共有できます。</div>
+    <div class="card">
+      <div class="section-head"><h3>📅 予定・不在時間を登録</h3></div>
+      <form id="eventForm" class="form-grid">
+        <div class="field"><label>メンバー名</label><input name="member" required placeholder="メンバー名"></div>
+        <div class="field"><label>日付</label><input name="date" type="date" required></div>
+        <div class="field"><label>内容・状況</label><select name="reason"><option>撮影</option><option>動画編集</option><option>ゲーム</option><option>休み</option><option>その他</option></select></div>
+        <div class="field"><label>開始時間</label><input name="start" type="time"></div>
+        <div class="field"><label>終了時間</label><input name="end" type="time"></div>
+        <div class="field full"><label>メモ</label><textarea name="memo" rows="2"></textarea></div>
+        <div class="field full"><button class="btn">予定を登録</button></div>
+      </form>
+    </div>
+    <div class="section-head"><h3>予定一覧</h3></div><div class="card" id="eventList"></div>
+  </section>
+
+  <section class="page" id="members">
+    <div class="card">
+      <div class="section-head"><h3>👥 メンバー一覧</h3></div>
+      <p class="muted">メンバーの活動状況を確認できます。</p>
+      <div id="memberList"></div>
+    </div>
+  </section>
+
+  <section class="page" id="workspaces">
+    <div class="card">
+      <div class="section-head"><h3>🗂️ チャンネル・ワークスペース</h3></div>
+      <div id="workspaceList"></div>
+      <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+      <h3>チャンネルを作成</h3>
+      <form id="workspaceForm" class="form-grid">
+        <div class="field"><label>チャンネル名</label><input name="name" required placeholder="チャンネル名"></div>
+        <div class="field"><label>アイコン</label><input name="icon" placeholder="🎨" value="🎨"></div>
+        <div class="field"><label>テーマカラー</label><input name="color" type="color" value="#7651dc"></div>
+        <div class="field"><label>説明</label><input name="description" placeholder="チャンネルの説明"></div>
+        <div class="field full"><button class="btn">ローカルワークスペースを追加</button></div>
+      </form>
+    </div>
+    <div class="card">
+      <div class="section-head"><h3>📺 登録チャンネル</h3></div>
+      <form id="channelForm" class="form-grid">
+        <div class="field"><label>ワークスペース</label><select name="workspace" id="channelWorkspace"></select></div>
+        <div class="field"><label>チャンネル名</label><input name="name" required></div>
+        <div class="field"><label>チャンネルID</label><input name="channelId"></div>
+        <div class="field"><label>チャンネルURL</label><input name="url" type="url"></div>
+        <div class="field"><label>アイコンURL</label><input name="iconUrl" type="url"></div>
+        <div class="field"><label>登録者数</label><input name="subscribers" type="number" min="0"></div>
+        <div class="field"><label>再生回数</label><input name="views" type="number" min="0"></div>
+        <div class="field"><label>動画数</label><input name="videoCount" type="number" min="0"></div>
+        <div class="field full actions">
+          <button class="btn" id="channelSubmitBtn">チャンネルを登録</button>
+          <button class="btn secondary" type="button" id="channelCancelBtn" style="display:none" onclick="cancelChannelEdit()">編集をキャンセル</button>
+        </div>
+      </form>
+      <div class="section-head"><h3>登録したチャンネル</h3></div>
+      <div id="channelList"></div>
+    </div>
+  </section>
+
+  <section class="page" id="links">
+    <div class="card">
+      <div class="section-head"><h3>🔗 リンクを保存</h3></div>
+      <form id="linkForm" class="form-grid">
+        <div class="field"><label>タイトル</label><input name="title" required></div>
+        <div class="field"><label>関連動画</label><input name="video"></div>
+        <div class="field full"><label>URL</label><input name="url" type="url" required></div>
+        <div class="field full"><button class="btn">リンクを保存</button></div>
+      </form>
+    </div>
+    <div class="card" id="linkList"></div>
+  </section>
+
+  <section class="page" id="growth">
+    <div class="card">
+      <div class="section-head"><h3>📈 チャンネル成長記録</h3></div>
+      <form id="growthForm" class="form-grid">
+        <div class="field"><label>日付</label><input name="date" type="date" required></div>
+        <div class="field"><label>登録者数</label><input name="subs" type="number" min="0" required></div>
+        <div class="field"><label>再生回数</label><input name="views" type="number" min="0" required></div>
+        <div class="field full"><button class="btn">記録を追加</button></div>
+      </form>
+    </div>
+    <div class="card" id="growthList"></div>
+  </section>
+
+  <section class="page" id="journal">
+    <div class="card">
+      <div class="section-head"><h3>📔 活動日記</h3></div>
+      <form id="journalForm" class="form-grid">
+        <div class="field"><label>日付</label><input name="date" type="date" required></div>
+        <div class="field"><label>作業時間（分）</label><input name="minutes" type="number" min="0"></div>
+        <div class="field full"><label>活動内容</label><textarea name="body" rows="4" required></textarea></div>
+        <div class="field full"><button class="btn">日記を保存</button></div>
+      </form>
+    </div>
+    <div class="card" id="journalList"></div>
+  </section>
+</main>
+</div>
+
+<div id="cloudSettings" class="start-gate" style="display:none">
+  <div class="cloud-panel">
+    <h2 style="margin-top:0">⚙️ Supabase接続設定</h2>
+    <p class="muted">Supabaseの Project URL と Publishable Key を入力してください。service_role keyは絶対に入力しないでください。</p>
+    <label>Project URL</label><input id="supabaseUrl" placeholder="https://xxxxxxxx.supabase.co">
+    <label>Publishable Key</label><textarea id="supabaseAnonKey" rows="4" placeholder="sb_publishable_..."></textarea>
+    <div class="cloud-actions"><button class="btn" onclick="saveSupabaseConfig()">接続して保存</button><button class="btn secondary" onclick="closeCloudSettings()">閉じる</button></div>
+    <div class="cloud-status">キーはこのブラウザに保存されます。</div>
+  </div>
+</div>
+
+<div id="inviteModal" class="start-gate" style="display:none">
+  <div class="cloud-panel">
+    <h2 style="margin-top:0">🤝 招待コード</h2>
+    <p class="muted">このチャンネルに参加するためのコードを発行できます。</p>
+    <label>参加者の権限</label>
+    <select id="inviteRole"><option value="editor">編集者</option><option value="viewer">閲覧者</option></select>
+    <div class="cloud-actions">
+      <button class="btn" onclick="createInviteCode()">招待コードを発行</button>
+      <button class="btn secondary" onclick="closeInvitePanel()">閉じる</button>
+    </div>
+    <div class="cloud-status" id="inviteResult" style="display:none"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const $=s=>document.querySelector(s);
+const defaults={
+ members:[{name:"あなた",role:"オーナー",status:"参加可能"}],
+ videos:[],tasks:[],ideas:[],events:[],links:[],growth:[],journal:[],
+ workspaces:[{id:"ws-default",name:"Mario-Hama-jp",icon:"🍄",color:"#7651dc",description:"Mario-Hama-jp チャンネルの制作ワークスペース",role:"オーナー"}],
+ channels:[{workspaceId:"ws-default",name:"Mario-Hama-jp",channelId:"UCkcfpT1BNZnjwWecz8x4Qgg",url:"https://www.youtube.com/@mariobros8196",iconUrl:"",subscribers:8,views:2357,videoCount:8,source:"manual"}]
+};
+let data={...defaults};
+try{const saved=JSON.parse(localStorage.getItem("creatorPaletteDemo"));if(saved)data={...defaults,...saved};}catch(e){}
+function save(){localStorage.setItem("creatorPaletteDemo",JSON.stringify(data));render()}
+function esc(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function toast(msg){const t=$("#toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",2600)}
+function showPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));const nav=document.querySelector(`[data-page="${id}"]`);$("#pageTitle").textContent=nav?nav.textContent.trim().replace(/^.{1,2}/,""):id;window.scrollTo({top:0,behavior:"smooth"})}
+$("#nav").addEventListener("click",e=>{const b=e.target.closest("button[data-page]");if(b)showPage(b.dataset.page)});
+function empty(msg){return `<div class="empty">${msg}</div>`}
+
+function renderWorkspaceChannel(){
+ const wlist=$("#workspaceList"),cselect=$("#channelWorkspace"),clist=$("#channelList"),switcher=$("#workspaceSelect");
+ if(!wlist||!cselect||!clist)return;
+ wlist.innerHTML=data.workspaces.map(w=>`<div class="list-row"><div style="display:flex;align-items:center;gap:12px"><div class="face">${esc(w.icon||"🗂️")}</div><div><b>${esc(w.name)}</b><div class="muted">${esc(w.description||"説明なし")} · ${esc(w.role||"オーナー")}</div></div></div><span class="pill green">利用中</span></div>`).join("")||empty("ワークスペースはまだありません");
+ const current=cselect.value;
+ cselect.innerHTML=data.workspaces.map(w=>`<option value="${esc(w.id)}">${esc(w.icon)} ${esc(w.name)}</option>`).join("");
+ if(data.workspaces.some(w=>w.id===current))cselect.value=current;
+ if(switcher){const old=switcher.value;switcher.innerHTML=data.workspaces.map(w=>`<option value="${esc(w.id)}">${esc(w.icon)} ${esc(w.name)}</option>`).join("");if(data.workspaces.some(w=>w.id===old))switcher.value=old;else if(cpWorkspaceId)switcher.value=cpWorkspaceId;}
+ clist.innerHTML=data.channels.map((c,i)=>{const w=data.workspaces.find(x=>x.id===c.workspaceId);return `<div class="list-row"><div><b>${esc(c.name)}</b><div class="muted">${esc(w?.name||"")} · ${esc(c.channelId||"ID未設定")}</div>${c.url?`<a href="${esc(c.url)}" target="_blank" rel="noopener">チャンネルを見る ↗</a>`:""}</div><button class="btn danger small" onclick="removeItem('channels',${i})">削除</button></div>`}).join("")||empty("チャンネルはまだありません");
+}
+function render(){
+ $("#statVideos").textContent=data.videos.length;
+ $("#statTasks").textContent=data.tasks.filter(x=>!x.done).length;
+ $("#statIdeas").textContent=data.ideas.length;
+ $("#statMembers").textContent=data.members.length;
+ $("#homeMembers").innerHTML=data.members.slice(0,5).map(m=>`<div class="list-row"><b>${esc(m.name)}</b><span class="pill">${esc(m.status)}</span></div>`).join("")||empty("メンバーはいません");
+ $("#homeEvents").innerHTML=data.events.slice(0,4).map(e=>`<div class="list-row"><div><b>${esc(e.member)} · ${esc(e.reason)}</b><div class="muted">${esc(e.date)}　${esc(e.start)}〜${esc(e.end)}</div></div></div>`).join("")||empty("予定はまだありません");
+ $("#homeVideos").innerHTML=data.videos.slice(0,5).map(v=>`<div class="list-row"><div><b>${esc(v.title)}</b><div class="muted">${esc(v.kind)} · ${esc(v.status)}</div></div></div>`).join("")||empty("動画はまだありません");
+ $("#memberList").innerHTML=data.members.map((m,i)=>`<div class="member"><div class="face">${esc(m.name.slice(0,1))}</div><div class="member-info"><b>${esc(m.name)}</b><small>${esc(m.role)}</small></div><select aria-label="活動状況" onchange="changeStatus(${i},this.value)" style="max-width:180px"><option ${m.status==="参加可能"?"selected":""}>参加可能</option><option ${m.status==="動画編集作業中"?"selected":""}>動画編集作業中</option><option ${m.status==="フォートナイトプレイ中"?"selected":""}>フォートナイトプレイ中</option><option ${m.status==="撮影中"?"selected":""}>撮影中</option><option ${m.status==="休憩中"?"selected":""}>休憩中</option><option ${m.status==="今日は参加不可"?"selected":""}>今日は参加不可</option></select>${m.role!=="オーナー"?`<button class="btn danger small" onclick="removeMember(${i})">削除</button>`:""}</div>`).join("");
+ $("#videoList").innerHTML=data.videos.map((v,i)=>`<div class="list-row"><div><b>${esc(v.title)}</b><div class="muted">${esc(v.kind)} · ${esc(v.owner)} · ${esc(v.status)}</div>${v.url?`<a href="${esc(v.url)}" target="_blank" rel="noopener">動画を見る ↗</a>`:""}</div><button class="btn danger small" onclick="removeItem('videos',${i})">削除</button></div>`).join("")||empty("動画はまだありません");
+ $("#taskList").innerHTML=data.tasks.map((t,i)=>`<div class="list-row"><label style="display:flex;align-items:center;gap:10px;flex:1"><input type="checkbox" ${t.done?"checked":""} onchange="toggleTask(${i},this.checked)" style="width:auto"><span style="${t.done?"text-decoration:line-through;color:#999":""}">${esc(t.text)}</span></label><button class="btn danger small" onclick="removeItem('tasks',${i})">削除</button></div>`).join("")||empty("チェック項目はありません");
+ $("#ideaList").innerHTML=data.ideas.map((v,i)=>`<div class="list-row"><div><b>${esc(v.title)}</b><div class="muted">${esc(v.category)} · ${esc(v.memo)}</div></div><button class="btn danger small" onclick="removeItem('ideas',${i})">削除</button></div>`).join("")||empty("アイデアはまだありません");
+ $("#eventList").innerHTML=data.events.map((e,i)=>`<div class="list-row"><div><b>${esc(e.member)} · ${esc(e.reason)}</b><div class="muted">${esc(e.date)}　${esc(e.start)}〜${esc(e.end)} ${esc(e.memo)}</div></div><button class="btn danger small" onclick="removeItem('events',${i})">削除</button></div>`).join("")||empty("予定はまだありません");
+ $("#linkList").innerHTML=data.links.map((l,i)=>`<div class="list-row"><div><b>${esc(l.title)}</b><div class="muted">${esc(l.video)}</div><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.url)} ↗</a></div><button class="btn danger small" onclick="removeItem('links',${i})">削除</button></div>`).join("")||empty("リンクはまだありません");
+ $("#growthList").innerHTML=data.growth.map(g=>`<div class="list-row"><b>${esc(g.date)}</b><span>登録者 ${Number(g.subs).toLocaleString()}人 · 再生 ${Number(g.views).toLocaleString()}回</span></div>`).join("")||empty("成長記録はまだありません");
+ $("#journalList").innerHTML=data.journal.map(j=>`<div class="list-row"><div><b>${esc(j.date)} · ${esc(j.minutes||0)}分</b><div class="muted">${esc(j.body)}</div></div></div>`).join("")||empty("日記はまだありません");
+ renderWorkspaceChannel();
+}
+window.changeStatus=(i,s)=>{data.members[i].status=s;save();toast("活動状況を更新しました")};
+window.removeMember=i=>{if(data.members[i].role==="オーナー")return;data.members.splice(i,1);save();toast("メンバーを削除しました")};
+window.removeItem=(key,i)=>{data[key].splice(i,1);save()};
+window.toggleTask=(i,v)=>{data.tasks[i].done=v;save()};
+function bindForm(id,key,mapper,success){const form=$("#"+id);form.addEventListener("submit",async e=>{e.preventDefault();const obj=mapper(new FormData(e.target));data[key].unshift(obj);e.target.reset();save();if(cpSupabase&&cpWorkspaceId){try{await cpPushData()}catch(err){toast("クラウド保存エラー: "+err.message);return}}toast(success)})}
+bindForm("videoForm","videos",f=>Object.fromEntries(["title","kind","owner","status","url"].map(k=>[k,f.get(k)])),"動画を登録しました");
+bindForm("taskForm","tasks",f=>({text:f.get("task"),done:false}),"チェック項目を追加しました");
+bindForm("ideaForm","ideas",f=>Object.fromEntries(["title","category","memo"].map(k=>[k,f.get(k)])),"アイデアを保存しました");
+bindForm("eventForm","events",f=>Object.fromEntries(["member","date","reason","start","end","memo"].map(k=>[k,f.get(k)])),"予定を登録しました");
+bindForm("linkForm","links",f=>Object.fromEntries(["title","video","url"].map(k=>[k,f.get(k)])),"リンクを保存しました");
+bindForm("growthForm","growth",f=>Object.fromEntries(["date","subs","views"].map(k=>[k,f.get(k)])),"成長記録を保存しました");
+bindForm("journalForm","journal",f=>Object.fromEntries(["date","minutes","body"].map(k=>[k,f.get(k)])),"日記を保存しました");
+$("#workspaceForm").addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.target);data.workspaces.unshift({id:"ws-"+Date.now(),name:f.get("name"),icon:f.get("icon")||"🎨",color:f.get("color"),description:f.get("description"),role:"オーナー"});e.target.reset();save();toast("ワークスペースを追加しました")});
+
+let editingChannelIndex=null;
+const channelForm=$("#channelForm");
+function channelFromForm(f){return {workspaceId:f.get("workspace"),name:f.get("name"),channelId:f.get("channelId"),url:f.get("url"),iconUrl:f.get("iconUrl"),subscribers:f.get("subscribers")||0,views:f.get("views")||0,videoCount:f.get("videoCount")||0,source:"manual"}}
+channelForm.addEventListener("submit",e=>{e.preventDefault();const channel=channelFromForm(new FormData(channelForm));if(editingChannelIndex===null){data.channels.unshift(channel);toast("チャンネルを登録しました")}else{data.channels[editingChannelIndex]={...data.channels[editingChannelIndex],...channel};toast("チャンネル情報を更新しました")}cancelChannelEdit(false);channelForm.reset();save()});
+window.editChannel=i=>{const c=data.channels[i];if(!c)return;editingChannelIndex=i;const fields=["workspace","name","channelId","url","iconUrl","subscribers","views","videoCount"];const values=[c.workspaceId,c.name,c.channelId,c.url,c.iconUrl,c.subscribers,c.views,c.videoCount];fields.forEach((name,n)=>{const input=channelForm.elements.namedItem(name);if(input)input.value=values[n]??""});$("#channelSubmitBtn").textContent="変更を保存";$("#channelCancelBtn").style.display="inline-flex";channelForm.scrollIntoView({behavior:"smooth",block:"center"})};
+window.cancelChannelEdit=(reset=true)=>{editingChannelIndex=null;if(reset)channelForm.reset();$("#channelSubmitBtn").textContent="チャンネルを登録";$("#channelCancelBtn").style.display="none"};
+function toggleJoinPanel(force){const panel=$("#joinPanel");const open=typeof force==="boolean"?force:!panel.classList.contains("open");panel.classList.toggle("open",open);if(open)$("#inviteCode").focus()}
+function showPostLoginChooser(mode){if(!cpUser){toast("先にログインしてください");$("#authEmail").focus();return}$("#startGate").style.display="none";if(mode==="create")showPage("workspaces")}
+window.toggleJoinPanel=toggleJoinPanel;
+window.showPostLoginChooser=showPostLoginChooser;
+
+/* Supabase接続 */
+let cpSupabase=null,cpUser=null,cpWorkspaceId=null,cpCloudReady=false,cpChannel=null,cpMembershipRows=[],cpCreatingWorkspace=false;
+const CP_CONFIG_KEY="creatorPaletteSupabaseConfig";
+const CP_DEFAULT_CONFIG={url:"https://qvvjogisyjjaxbahgbsm.supabase.co",key:"sb_publishable_ps8opTBswNYQCzET1egl5w_NNQJtnAS"};
+if(!localStorage.getItem(CP_CONFIG_KEY))localStorage.setItem(CP_CONFIG_KEY,JSON.stringify(CP_DEFAULT_CONFIG));
+function cpConfig(){try{return JSON.parse(localStorage.getItem(CP_CONFIG_KEY)||"{}")}catch(e){return {}}}
+function openCloudSettings(){const c=cpConfig();$("#supabaseUrl").value=c.url||"";$("#supabaseAnonKey").value=c.key||"";$("#cloudSettings").style.display="grid"}
+function closeCloudSettings(){$("#cloudSettings").style.display="none"}
+async function saveSupabaseConfig(){const url=$("#supabaseUrl").value.trim(),key=$("#supabaseAnonKey").value.trim();if(!/^https:\/\/[a-zA-Z0-9-]+\.supabase\.co$/.test(url)||!key){toast("Project URLまたはPublishable Keyを確認してください");return}localStorage.setItem(CP_CONFIG_KEY,JSON.stringify({url,key}));try{await cpInitSupabase();closeCloudSettings();toast("Supabaseに接続しました")}catch(e){toast("接続エラー: "+e.message)}}
+async function cpInitSupabase(){const c=cpConfig();if(!c.url||!c.key)throw new Error("Supabase URLとPublishable Keyを設定してください");if(!window.supabase?.createClient)throw new Error("Supabase SDKを読み込めませんでした");cpSupabase=window.supabase.createClient(c.url,c.key);cpCloudReady=true;const {data:{session},error}=await cpSupabase.auth.getSession();if(error)throw error;if(session)await cpAfterLogin(session.user);return cpSupabase}
+function cpAuthMessage(msg){const el=$("#cloudAuthStatus");if(el)el.textContent=msg}
+async function cloudSignIn(){try{if(!cpSupabase)await cpInitSupabase();const {data,error}=await cpSupabase.auth.signInWithPassword({email:$("#authEmail").value.trim(),password:$("#authPassword").value});if(error)throw error;await cpAfterLogin(data.user)}catch(e){cpAuthMessage("ログインできません: "+e.message)}}
+async function cloudSignUp(){try{if(!cpSupabase)await cpInitSupabase();const {data,error}=await cpSupabase.auth.signUp({email:$("#authEmail").value.trim(),password:$("#authPassword").value});if(error)throw error;if(data.session)await cpAfterLogin(data.user);else cpAuthMessage("確認メールを送信しました。メール内のリンクを開いてからログインしてください。")}catch(e){cpAuthMessage("登録できません: "+e.message)}}
+
+async function cpLoadMemberships(userId){
+ const {data:rows,error}=await cpSupabase.from("workspace_members").select("workspace_id,role").eq("user_id",userId);
+ if(error)throw error;
+ const ids=rows.map(r=>r.workspace_id);
+ if(!ids.length)return [];
+ const {data:workspaces,error:wsError}=await cpSupabase.from("workspaces").select("id,name,icon,theme_color,description").in("id",ids);
+ if(wsError)throw wsError;
+ return rows.map(r=>({...r,workspace:workspaces.find(w=>w.id===r.workspace_id)}));
+}
+async function cpAfterLogin(user){
+ cpUser=user;
+ try{
+  cpMembershipRows=await cpLoadMemberships(user.id);
+  if(!cpMembershipRows.length){$("#startGate").style.display="grid";cpAuthMessage("ログインしました。新しいチャンネルを作成するか、招待コードを入力してください。");return}
+  $("#startGate").style.display="none";
+  const selected=cpMembershipRows.find(r=>r.workspace_id===cpWorkspaceId)||cpMembershipRows[0];
+  await cpOpenWorkspace(selected.workspace_id);
+ }catch(e){$("#startGate").style.display="grid";cpAuthMessage("ログイン後の読み込みに失敗しました: "+e.message)}
+}
+async function cpOpenWorkspace(workspaceId){
+ const membership=cpMembershipRows.find(r=>String(r.workspace_id)===String(workspaceId));
+ if(!membership)throw new Error("このチャンネルへの参加情報がありません。");
+ const {data:doc,error}=await cpSupabase.from("workspace_data").select("data").eq("workspace_id",workspaceId).maybeSingle();
+ if(error)throw error;
+ if(!doc)throw new Error("チャンネルのデータが見つかりません。workspace_dataの登録を確認してください。");
+ cpWorkspaceId=workspaceId;
+ data={...defaults,...(doc.data||{})};
+ const ws=membership.workspace;
+ data.workspaces=[{id:workspaceId,name:ws?.name||"チャンネル",icon:ws?.icon||"🎨",color:ws?.theme_color||"#7651dc",description:ws?.description||"",role:membership.role},...data.workspaces.filter(w=>w.id!==workspaceId)];
+ localStorage.setItem("creatorPaletteDemo",JSON.stringify(data));
+ render();
+ $("#sidebarWorkspaceName").textContent=(ws?.icon||"🎨")+" "+(ws?.name||"チャンネル");
+ $("#startGate").style.display="none";
+ $("#cloudSideNote").textContent="☁️ 接続中 · "+(ws?.name||"チーム");
+ cpSubscribe();
+ showPage("home");
+ toast("チームデータを読み込みました");
+}
+async function cpPushData(){
+ if(!cpSupabase||!cpUser||!cpWorkspaceId)return;
+ const {error}=await cpSupabase.from("workspace_data").update({data:data,updated_by:cpUser.id,updated_at:new Date().toISOString()}).eq("workspace_id",cpWorkspaceId);
+ if(error)throw error;
+}
+function cpSubscribe(){
+ if(cpChannel)cpSupabase.removeChannel(cpChannel);
+ cpChannel=cpSupabase.channel("workspace-"+cpWorkspaceId)
+ .on("postgres_changes",{event:"UPDATE",schema:"public",table:"workspace_data",filter:"workspace_id=eq."+cpWorkspaceId},payload=>{
+  if(payload.new?.updated_by===cpUser?.id)return;
+  if(payload.new?.data){data={...defaults,...payload.new.data};localStorage.setItem("creatorPaletteDemo",JSON.stringify(data));render();toast("チームのデータが更新されました")}
+ }).subscribe();
+}
+async function createInviteCode(){
+ if(!cpSupabase||!cpUser||!cpWorkspaceId){toast("チャンネルにログインしてください");return}
+ const role=$("#inviteRole").value;
+ const box=$("#inviteResult");
+ box.style.display="block";box.textContent="招待コードを発行しています…";
+ try{
+  const {data:code,error}=await cpSupabase.rpc("create_workspace_invite",{p_workspace_id:cpWorkspaceId,p_role:role});
+  if(error)throw error;
+  box.textContent="招待コード: "+code+"（参加者にこのコードを共有してください）";
+  toast("招待コードを発行しました");
+ }catch(e){box.textContent="発行エラー: "+e.message;toast("招待コードを発行できませんでした")}
+}
+function openInvitePanel(){if(!cpUser||!cpWorkspaceId){toast("チャンネルにログインしてください");return}$("#inviteResult").style.display="none";$("#inviteModal").style.display="grid"}
+function closeInvitePanel(){$("#inviteModal").style.display="none"}
+async function tryJoin(){
+ const code=$("#inviteCode").value.trim().toUpperCase();
+ const status=$("#joinStatus");
+ status.style.display="block";
+ if(!code){status.textContent="招待コードを入力してください。";return}
+ if(!cpSupabase||!cpUser){status.textContent="先にログインしてください。";return}
+ status.textContent="招待コードを確認しています…";
+ try{
+  const {data:workspaceId,error}=await cpSupabase.rpc("join_workspace_by_invite",{p_code:code});
+  if(error)throw error;
+  if(!workspaceId)throw new Error("参加先のチャンネルIDが返されませんでした。");
+  cpMembershipRows=await cpLoadMemberships(cpUser.id);
+  await cpOpenWorkspace(workspaceId);
+  $("#inviteCode").value="";
+  status.textContent="チャンネルに参加しました！";
+  toast("チャンネルに参加しました");
+ }catch(e){status.textContent="参加できません: "+e.message}
+}
+async function switchWorkspace(id){
+ if(!id||!cpSupabase||!cpUser)return;
+ try{cpMembershipRows=await cpLoadMemberships(cpUser.id);await cpOpenWorkspace(id)}catch(e){toast("チャンネルを開けません: "+e.message)}
+}
+async function startCreate(){
+ const button=$("#createWorkspaceButton");
+ const nameField=$("#newWorkspaceName");
+ if(cpCreatingWorkspace)return;
+ if(!cpSupabase||!cpUser){cpAuthMessage("先にログインしてください。");toast("ログインしてください");return}
+ const name=(nameField?.value||"").trim();
+ if(!name){toast("チャンネル名を入力してください");nameField?.focus();return}
+ if(name.length>100){toast("チャンネル名は100文字以内にしてください");return}
+ cpCreatingWorkspace=true;
+ if(button){button.disabled=true;button.textContent="作成しています…"}
+ const status=$("#createWorkspaceStatus");
+ const showStatus=msg=>{if(status){status.style.display="block";status.textContent=msg}};
+ showStatus("① Supabaseにチャンネルを作成しています…");
+ try{
+  const {data:sessionData,error:sessionError}=await cpSupabase.auth.getSession();
+  if(sessionError)throw new Error("ログイン状態を確認できません: "+sessionError.message);
+  const sessionUser=sessionData?.session?.user;
+  if(!sessionUser?.id)throw new Error("ログイン期限が切れています。再ログインしてください。");
+  const {data:createdId,error:createError}=await cpSupabase.rpc("create_workspace",{p_name:name});
+  if(createError){const detail=[createError.message,createError.details,createError.hint,createError.code].filter(Boolean).join(" / ");throw new Error("Supabaseの作成処理に失敗しました: "+detail)}
+  const workspaceId=typeof createdId==="string"?createdId:createdId?.id;
+  if(!workspaceId)throw new Error("チャンネルIDが返されませんでした。");
+  showStatus("② チャンネルの参加情報を読み込んでいます…");
+  cpUser=sessionUser;
+  cpMembershipRows=await cpLoadMemberships(cpUser.id);
+  const membership=cpMembershipRows.find(row=>String(row.workspace_id)===String(workspaceId));
+  if(!membership)throw new Error("チャンネルは作成されましたが、参加情報を取得できません。workspace_membersのSELECT用RLSポリシーを確認してください。");
+  showStatus("③ チャンネルのデータを読み込んでいます…");
+  await cpOpenWorkspace(workspaceId);
+  if(nameField)nameField.value="";
+  showStatus("チャンネルを作成し、ホーム画面を開きました。");
+  toast("チャンネルを作成して開きました！");
+ }catch(e){
+  const message=e?.message||String(e);
+  showStatus("作成後の処理でエラー: "+message);
+  cpAuthMessage("チャンネルを作成できません: "+message);
+  toast("作成エラー: "+message);
+  console.error("Creator Palette create workspace error",e);
+ }finally{
+  cpCreatingWorkspace=false;
+  if(button){button.disabled=false;button.textContent="チャンネルを作成する →"}
+ }
+}
+window.cpCreateWorkspaceClick=async function(){
+ const status=$("#createWorkspaceStatus");
+ const button=$("#createWorkspaceButton");
+ if(typeof startCreate!=="function"){if(status)status.textContent="作成処理が読み込まれていません。";return}
+ if(button){button.disabled=true;button.textContent="作成しています…"}
+ if(status){status.style.display="block";status.textContent="クリックを確認しました。作成処理を開始します…"}
+ try{await startCreate()}catch(e){const message=e?.message||String(e);if(status)status.textContent="作成エラー: "+message;console.error(e)}
+ finally{if(button){button.disabled=false;button.textContent="チャンネルを作成する →"}}
+};
+async function signOutCloud(){
+ if(cpSupabase&&cpUser)await cpSupabase.auth.signOut();
+ cpUser=null;cpWorkspaceId=null;cpCloudReady=false;cpMembershipRows=[];
+ if(cpChannel)cpSupabase.removeChannel(cpChannel);
+ $("#startGate").style.display="grid";
+ $("#cloudAuthPanel").style.display="block";
+ cpAuthMessage("ログアウトしました。");
+}
+window.addEventListener("load",async()=>{
+ const c=cpConfig();
+ if(c.url&&c.key){try{await cpInitSupabase()}catch(e){cpAuthMessage("Supabase接続エラー: "+e.message)}}
+});
+window.addEventListener("error",e=>{const status=$("#cloudAuthStatus");if(status)status.textContent="JavaScriptエラー: "+(e.message||"詳細不明")});
+render();
+</script>
+</body>
+</html>
